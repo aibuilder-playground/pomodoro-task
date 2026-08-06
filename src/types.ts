@@ -17,3 +17,17 @@ export interface PomodoroSettings {
   longBreakMinutes: number;
   roundsBeforeLongBreak: number;
 }
+
+/** Forma exacta del archivo JSON que vive en disco (Fase 2). */
+export interface PersistedState {
+  version: number;
+  tasks: Task[];
+  activeTaskId: string | null;
+  phase: SessionPhase;
+  secondsLeft: number;
+  isRunning: boolean;
+  completedRoundsInCycle: number;
+  totalPomodorosToday: number;
+  settings: PomodoroSettings;
+  lastSavedAt: number;
+}

@@ -94,6 +94,11 @@ input {
   padding: 4px 24px 28px;
 }
 
+.app-loading {
+  align-items: center;
+  justify-content: center;
+}
+
 /* ----------------------------- Focus card -------------------------------- */
 
 .focus-card {

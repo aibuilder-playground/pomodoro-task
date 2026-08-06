@@ -1,5 +1,5 @@
 import { useAppStore } from "../store/useAppStore";
-import { ResetMemoryButton } from "./ResetMemoryButton";
+import { ResetDataButton } from "./ResetDataButton";
 
 export function Header() {
   const totalPomodorosToday = useAppStore((s) => s.totalPomodorosToday);
@@ -14,7 +14,7 @@ export function Header() {
         <span className="pomodoro-count" title="Pomodoros completados hoy">
           🍃 {totalPomodorosToday}
         </span>
-        <ResetMemoryButton />
+        <ResetDataButton />
       </div>
     </header>
   );
