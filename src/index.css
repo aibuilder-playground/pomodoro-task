@@ -1,0 +1,454 @@
+/* ---------------------------------------------------------------------- */
+/* Paleta calmante — tonos pastel/sage/azules. Sin rojos ni saturaciones   */
+/* agresivas, incluso para la acción destructiva de reinicio.             */
+/* ---------------------------------------------------------------------- */
+:root {
+  --color-bg: #f6f8f7;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef2f1;
+  --color-border: #e1e8e6;
+  --color-text: #33414e;
+  --color-text-muted: #7a8894;
+
+  --color-primary: #5fa8a0; /* sage teal — enfoque */
+  --color-primary-dark: #4c8f88;
+  --color-accent: #8fb8de; /* azul suave — descanso */
+  --color-success: #7fb98a; /* verde suave — completado */
+  --color-warning: #e3b778; /* ámbar suave — pausado */
+  --color-danger: #d98e73; /* terracota apagado — destructivo, nunca rojo puro */
+
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-soft: 0 4px 20px rgba(51, 65, 78, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+/* -------------------------------- Layout -------------------------------- */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px 12px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.app-subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pomodoro-count {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 24px 28px;
+}
+
+/* ----------------------------- Focus card -------------------------------- */
+
+.focus-card {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  animation: fade-in 0.35s ease;
+}
+
+.focus-card--empty {
+  padding: 40px 24px;
+  gap: 14px;
+}
+
+.focus-phase {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+  margin: 0 0 8px;
+}
+
+.focus-phase--shortBreak,
+.focus-phase--longBreak {
+  color: var(--color-accent);
+}
+
+.progress-ring-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.progress-ring-track {
+  stroke: var(--color-surface-muted);
+}
+
+.progress-ring-progress {
+  transition: stroke-dashoffset 0.9s linear;
+}
+
+.progress-ring-center {
+  position: absolute;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-task-title {
+  margin: 6px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.focus-meta {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.focus-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ----------------------------- Empty state -------------------------------- */
+
+.breathing-dot {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--color-surface-muted);
+  border: 2px solid var(--color-primary);
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+.empty-state-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.empty-state-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  max-width: 280px;
+}
+
+/* ------------------------------- Buttons --------------------------------- */
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease, background-color 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: var(--color-border);
+}
+
+.btn-success {
+  background: var(--color-success);
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  filter: brightness(0.95);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: #ffffff;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+/* ------------------------------ Task input -------------------------------- */
+
+.task-input {
+  display: flex;
+  gap: 8px;
+}
+
+.task-input input {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.task-input input:focus {
+  border-color: var(--color-primary);
+}
+
+/* ------------------------------- Task list --------------------------------- */
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-list-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  animation: fade-in 0.25s ease;
+}
+
+.task-item--completed .task-item-title {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.task-item-title {
+  flex: 1;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.task-item-status {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--color-border);
+}
+
+.status-dot--active {
+  background: var(--color-primary);
+}
+
+.status-dot--paused {
+  background: var(--color-warning);
+}
+
+.status-dot--completed {
+  background: var(--color-success);
+}
+
+.completed-section {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.completed-toggle {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.completed-toggle:hover {
+  color: var(--color-text);
+}
+
+/* ----------------------------- Reset memory -------------------------------- */
+
+.reset-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reset-confirm-text {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* --------------------------- Celebration overlay ---------------------------- */
+
+.celebration-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  z-index: 5;
+}
+
+.celebration-check {
+  font-size: 56px;
+  color: var(--color-success);
+  animation: pop-in 0.6s ease;
+}
+
+/* --------------------------------- Keyframes --------------------------------- */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
