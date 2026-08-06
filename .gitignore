@@ -1,0 +1,13 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Tauri
+src-tauri/target
+
+# OS
+.DS_Store
+
+# Configuración local de Claude Code (no compartida)
+.claude/settings.local.json
